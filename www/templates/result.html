@@ -1,0 +1,47 @@
+
+
+<ion-view title="Result">
+    <ion-content padding="true" class="has-header">
+	    <div id="header">
+			<h2>{{"ผลการโหวต "+$scope.eventName}}</h2>
+			
+
+			<!-- <span class="button button-outline button-positive button-block icon ion-ios-timer-outline button-rounded" ng-click="modal.show();selectTimer()">&nbsp;Start timer</span> -->
+		</div>
+
+    	<div class="demo-container">
+			<div id="placeholder" class="demo-placeholder" style="padding: 0px; position: relative;">
+				<canvas class="flot-base" style="direction: ltr; position: absolute; left: 0px; right: 0; width: 85vw !important; height: 65vh !important;"></canvas>
+				<div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);">
+					<div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;">
+					</div>
+					<div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;">
+					</div>
+				</div>
+				<canvas class="flot-overlay" width="818" height="413" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 818px; height: 413px;"></canvas>
+			</div>
+		</div>
+		<p style="text-align: center;">{{eventDesc}}</p>
+		<button class="button button-positive" id="btran" style="display: none; position: absolute; left: 0; right: 9; width: 30vw; margin: auto;" ng-click="random()">สุ่มผู้โชคดี</button>
+    <button class="button button-block button-assertive" ng-click="endvote()" style="position:absolute; left: 9; right: 0; width: 30vw; margin: auto;" >
+       สิ้นสุดการโหวต
+            </button>
+            <form id="totalscore">
+              <center>
+                <br>
+                 <br>
+                ผลคะแนน<br>
+                <div id="score">ss </div>
+                <br>
+
+                <div id="totaluser">ss </div>
+
+              </center>
+            </form>
+    
+
+		<!-- <div id="footer">
+			Flot 0.8.3 – Copyright © 2007 - 2014 IOLA and Ole Laursen
+		</div> -->
+	</ion-content>
+</ion-view>

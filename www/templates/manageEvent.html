@@ -1,0 +1,51 @@
+<ion-view title="Manage Event" id="page2">
+    <ion-content padding="true" class="has-header">
+        <form id="manageEvent-form2" class="list">
+
+       <!--  <ion-item class="item-divider">Login Type</ion-item> -->
+
+             <div class="item item-divider">
+           Login Type: {{ data.serverSide }}
+        </div>
+        
+        <ion-radio ng-repeat="item in serverSideList"
+                   ng-value="item.value"
+                   ng-model="data.serverSide"
+                   ng-change="serverSideChange(item)"
+                   name="server-side">
+          {{ item.text }}
+        </ion-radio>
+        
+
+            <ion-item class="item-divider">Event</ion-item>
+            <label class="item item-input">
+                <span class="input-label">Name</span>
+                <input id = "eventName" type="text" placeholder="เช่น PIEVOTE">
+            </label>
+            <label class="item item-input">
+                <span class="input-label">Description</span>
+                <input id = "eventDesc" type="text" placeholder="เช่น แข่งขัน">
+            </label>
+            <div class="spacer" style="width: 300px; height: 23px;"></div>
+            <ion-item class="item-divider">Team</ion-item>
+            <ion-list id = "teamLable" ng-repeat="name in teamList">
+                <ion-item>{{name}}</ion-item>
+                
+            </ion-list>
+            <label class="item item-input">
+                <span class="input-label">ทีมที่ {{teamNumber}}</span>
+                <input id = "teamName" type="text" placeholder="เช่น NETPIE">
+            </label>
+            
+            <button class="button button-block button-positive" ng-click="addTeam()">
+                Add Team
+            </button>
+     
+            <button ng-click="submit()" class="button button-positive  button-block">Done</button>
+        </form>
+        
+
+         <form id="qr" style="display: none;"></form>
+         <button id="btconfig" style="display: none;" ng-click="config()" class="button button-positive  button-block">ตั้งค่า</button>
+    </ion-content>
+</ion-view>

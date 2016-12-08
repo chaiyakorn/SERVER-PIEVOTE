@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+    
+    <script src="lib/ionic/js/ionic.bundle.js"></script>
+
+    <!-- cordova script (this will be a 404 during development) -->
+    <script src="cordova.js"></script>
+
+    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above -->
+    <link href="css/style.css" rel="stylesheet">
+   
+
+    
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    
+
+    <style type="text/css">
+      .platform-ios .manual-ios-statusbar-padding{
+        padding-top:20px;
+      }
+      .manual-remove-top-padding{
+        padding-top:0px; 
+      }
+      .manual-remove-top-padding .scroll{
+        padding-top:0px !important;
+      }
+      ion-list.manual-list-fullwidth div.list, .list.card.manual-card-fullwidth {
+        margin-left:-10px;
+        margin-right:-10px;
+      }
+      ion-list.manual-list-fullwidth div.list > .item, .list.card.manual-card-fullwidth > .item {
+        border-radius:0px;
+        border-left:0px;
+        border-right: 0px;
+      }
+    </style>
+    <!-- my QR GEN -->
+    <script src="js/html5-qrcode.js"></script>
+    <script src="js/qrcode.js"></script>
+
+  <!--   ionic js -->
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/routes.js"></script>
+    
+     
+    <script src="js/directives.js"></script> 
+    <script src="js/services.js"></script>
+
+    <script src="https://netpie.io/microgear.js"></script>
+    
+    <link href="../css/graph.css" rel="stylesheet" type="text/css">
+    <script language="javascript" type="text/javascript" src="../js/jquery.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/jquery.flot.js"></script>
+    <script language="javascript" type="text/javascript" src="../js/jquery.flot.categories.js"></script>
+
+    <script type="text/javascript">
+      const APPID = "testvote";
+      const KEY = "IIprbAYEP1H4RVT";
+      const SECRET = "XbMUte1fVvEWC7j4z9oYbIumL"; 
+      const ALIAS = "server";
+
+      var array_id = [];
+      var array_username = [];
+      var array_teamevote = [];
+      var totalVotes = new Object();
+        
+      var microgear = Microgear.create({
+        key: KEY,
+        secret: SECRET,
+        alias : ALIAS
+      });
+
+      microgear.on('message',function(topic,msg) {
+        console.log(msg);
+        // analizeData(msg);
+        if (end==true) {
+          console.log("vote is end cancel all Data")
+        }else{
+
+             var split_msg = msg.split("|");
+        if(split_msg[0] == "can vote ?"){
+          if(array_id.indexOf(split_msg[1]) < 0){
+            microgear.chat(split_msg[1], "can vote ?|y");
+          }else{
+            microgear.chat(split_msg[1], "can vote ?|n");
+          }
+       
+        }else if(split_msg[0] == "request buttons"){
+          microgear.publish("/"+split_msg[1], teams+"teams");
+        }else if(split_msg[0] == "verify"){
+          if(split_msg[1] == "arm"){
+            microgear.chat("arm", "logout");
+          }
+        }else{
+          if(array_id.indexOf(split_msg[0]) < 0){
+            array_id.push(split_msg[0]);
+            array_username.push(split_msg[1]);
+            array_teamevote.push(split_msg[2]);
+            count(split_msg[2]);
+          }
+        }
+
+        }
+       
+      });
+
+      microgear.on('connected', function() {
+
+        console.log(" on connected");
+      });
+
+      microgear.on('present', function(event) {
+        console.log(event);
+        console.log(" on present");
+      });
+
+      microgear.on('absent', function(event) {
+        console.log(event);
+        console.log(" on absent");
+      });
+
+      microgear.resettoken(function(err) {
+        microgear.connect(APPID);
+        console.log(" on resettoken");
+      });
+
+      function count(vote){
+          if(vote in totalVotes){
+            totalVotes[vote] += 1;
+          }else{
+            totalVotes[vote] = 1;
+          }
+        console.log("Recieve Data!");
+        angular.element(document.getElementById('placeholder')).scope().updateGraph(totalVotes, array_username);
+      }
+    </script>
+    
+
+    <!-- Only required for Tab projects w/ pages in multiple tabs 
+    <script src="lib/ionicuirouter/ionicUIRouter.js"></script>
+    -->
+
+  </head>
+  <body ng-app="app" animation="slide-left-right-ios7">
+  <div>
+    <div>
+        <ion-nav-bar class="bar-stable">
+            <ion-nav-back-button></ion-nav-back-button>
+        </ion-nav-bar>
+        <ion-nav-view></ion-nav-view>
+    </div>
+</div>
+  </body>
+</html>
